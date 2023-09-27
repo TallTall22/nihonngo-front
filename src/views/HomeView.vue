@@ -2,12 +2,13 @@
   import {ref} from 'vue'
   import volumnSVG from '../assets/volumn.svg'
   import { getUnit39Async } from '../apis';
-  const { unit39, getUnit39, isLoading }=getUnit39Async()
+  const { unit, getUnit, isLoading }=getUnit39Async()
 
   const mode=ref('vocabulary')
+  const currentUnit=ref(0)
   const correctCount=ref(0)
-  const unitList = Array.from({ length: 12 }, (_, index) => {
-  const lesson = 39 + index;
+  const unitList = Array.from({ length: 13 }, (_, index) => {
+  const lesson = 26 + index;
   return `第${lesson}課`;
   });
   
@@ -18,31 +19,39 @@
 
   const vocabularyMode=()=>{
     mode.value='vocabulary'
-    unit39.vocabularies.forEach(vocabulary => {
-    vocabulary.userAnswer = '';
-    });
+    unit[currentUnit.value].vocabularies.sort((a,b)=>a.id-b.id)
   }
 
   const testMode = () => {
   mode.value = 'test'
-  unit39.vocabularies.forEach(vocabulary => {
+  unit[currentUnit.value].vocabularies.forEach(vocabulary => {
     vocabulary.userAnswer = '';
   });
+  shuffleVocabularies()
 }
 
+const shuffleVocabularies = () => {
+  unit[currentUnit.value].vocabularies.sort(() => Math.random() - 0.5);
+};
+
   const checkAnswer=()=>{
+    correctCount.value=unit[currentUnit.value].vocabularies.filter(v=>v.userAnswer===v.answer).length
     mode.value='answer'
-    correctCount.value=unit39.vocabularies.filter(v=>v.userAnswer===v.answer).length
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  getUnit39()
+  const changeUnit=(unit)=>{
+    currentUnit.value=unit
+    vocabularyMode()
+  }
+  getUnit()
 </script>
 <template>
   <div v-if="isLoading" class="">Loading...</div>
    <div v-if="!isLoading" class="container">
     <div class="unit-list-wrapper">
       <ul>
-        <li v-for="(unit, index) in unitList" :key="index">
+        <li v-for="(unit, index) in unitList" :key="index" @click="changeUnit(index)">
           {{unit}}
         </li>
       </ul>
@@ -52,10 +61,10 @@
         <button type="button" @click=vocabularyMode>單字模式</button>
         <button type="button" @click=testMode>考試模式</button>
         <span v-if="mode==='test'">※答案請用片假名或平假名回答</span>
-        <span class="correct-count" v-if="mode==='answer'">答對題數 : {{ correctCount }}/{{ unit39.vocabularies.length }}</span>
+        <span class="correct-count" v-if="mode==='answer'">答對題數 : {{ correctCount }}/{{ unit[currentUnit].vocabularies.length }}</span>
       </div>
         <ul>
-          <li v-for="vocabulary in unit39.vocabularies" :key="vocabulary.id">
+          <li v-for="vocabulary in unit[currentUnit].vocabularies" :key="vocabulary.id">
             <div class="vocabulary-item">
               <div v-if="mode==='vocabulary'" class="vocabulary-word">{{ vocabulary.name }}</div>
               <input v-if="mode === 'test'|| mode === 'answer'" v-model="vocabulary.userAnswer" class="vocabulary-input" name="userAnswer" placeholder="" :disabled="mode==='answer'"/>
@@ -94,6 +103,7 @@
         li{
           font-size: 1.5rem;
           margin-bottom: 1.2rem;
+          cursor: pointer;
         }
       }
     }
