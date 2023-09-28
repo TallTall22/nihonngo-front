@@ -1,7 +1,7 @@
 import axios from "axios";
 import { reactive, ref } from "vue";
 
-const base_url = 'http://localhost:3001';
+const base_url = 'https://test.just-for-test-shop.de/';
 
 export const getUnit39Async = () => {
   const unit = reactive({
