@@ -10,7 +10,7 @@ import HomeView from './views/HomeView.vue'
 
 <style scoped>
   main{
-  padding-top: 50px;
+  padding-top: 35px;
   padding-bottom: 50px;
 }
 </style>

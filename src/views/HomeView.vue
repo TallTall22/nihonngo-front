@@ -7,7 +7,7 @@
   const mode=ref('vocabulary')
   const currentUnit=ref(0)
   const correctCount=ref(0)
-  const unitList = Array.from({ length: 13 }, (_, index) => {
+  const unitList = Array.from({ length: 14 }, (_, index) => {
   const lesson = 26 + index;
   return `第${lesson}課`;
   });
@@ -48,6 +48,10 @@ const shuffleVocabularies = () => {
 </script>
 <template>
   <div v-if="isLoading" class="">Loading...</div>
+  <div v-if="!isLoading" class="title">
+    <span>第{{ unit[currentUnit].id }}課 </span>
+    <span>{{unit[currentUnit].title}}</span>
+  </div>
    <div v-if="!isLoading" class="container">
     <div class="unit-list-wrapper">
       <ul>
@@ -60,12 +64,15 @@ const shuffleVocabularies = () => {
       <div class="change-mode">
         <button type="button" @click=vocabularyMode>單字模式</button>
         <button type="button" @click=testMode>考試模式</button>
+        <select v-model="currentUnit" name="" id="">
+          <option v-for="(unit,index) in unitList" :key="index" :value="index">{{ unit }}</option>
+        </select>
         <span v-if="mode==='test'">※答案請用片假名或平假名回答</span>
         <span class="correct-count" v-if="mode==='answer'">答對題數 : {{ correctCount }}/{{ unit[currentUnit].vocabularies.length }}</span>
       </div>
         <ul>
           <li v-for="vocabulary in unit[currentUnit].vocabularies" :key="vocabulary.id">
-            <div class="vocabulary-item">
+            <div class="vocabulary-item" :mode="mode">
               <div v-if="mode==='vocabulary'" class="vocabulary-word">{{ vocabulary.name }}</div>
               <input v-if="mode === 'test'|| mode === 'answer'" v-model="vocabulary.userAnswer" class="vocabulary-input" name="userAnswer" placeholder="" :disabled="mode==='answer'"/>
               <div class="vocabulary-meaning">{{ vocabulary.meaning }}</div>
@@ -87,12 +94,17 @@ const shuffleVocabularies = () => {
    </div>
 </template>
 <style lang="scss" scoped>
+.title{
+  text-align: center;
+  font-size: 2.5rem;
+  padding-bottom: 18px;
+}
   .container{
     width: 100%;
     display: flex;
     .unit-list-wrapper{
       width: 15%;
-      background-color: #debd19;
+      background-color: #19deaa;
       ul{
         width: 100%;
         height: 50%;
@@ -116,6 +128,9 @@ const shuffleVocabularies = () => {
         .correct-count{
           color: #00670c;
         }
+        select{
+          display: none;
+        }
       }
       ul{
         border: 1px solid #000;
@@ -133,6 +148,68 @@ const shuffleVocabularies = () => {
       }
       }
       
+    }
+  }
+
+  @media screen and (max-width:864px) {
+    .title{
+      font-size: 1.2rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .container{
+      display: block;
+      .unit-list-wrapper{
+        display: none;
+      }
+      .vocabulary{
+        width: 100%;
+        .change-mode{
+          padding: 0.5rem;
+          select{
+            display: block;
+            float: right;
+          }
+          span{
+            margin: 0.5rem 0;
+            display: block;
+          }
+        }
+        ul{
+          padding: 1.5rem;
+          .vocabulary-item[mode="vocabulary"] {
+            display: grid; 
+            grid-template-columns: 1fr ; 
+
+        .vocabulary-word {
+          font-size: 1.8rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .vocabulary-meaning {
+          font-size: 1.2rem;
+          margin-bottom: 0.8rem;
+        }
+
+        .vocabulary-button {
+          margin-top: 0.5rem; 
+        }
+      }
+          .vocabulary-item[mode="test"],
+          .vocabulary-item[mode="answer"] {
+            min-height: 1.5rem;
+            display: grid;
+            grid-template-columns: 4fr 6fr ;
+            align-items: center;
+            overflow: visible;
+
+            .vocabulary-input{
+              height: auto;
+            }
+          }
+        }
+      }
     }
   }
 </style>
