@@ -73,7 +73,8 @@ const shuffleVocabularies = () => {
         <ul>
           <li v-for="vocabulary in unit[currentUnit].vocabularies" :key="vocabulary.id">
             <div class="vocabulary-item" :mode="mode">
-              <div v-if="mode==='vocabulary'" class="vocabulary-word">{{ vocabulary.name }}</div>
+              <div v-if="mode==='vocabulary'" class="vocabulary-word">{{ vocabulary.answer }}</div>
+              <div v-if="mode==='vocabulary'" class="vocabulary-name">{{ vocabulary.name }}</div>
               <input v-if="mode === 'test'|| mode === 'answer'" v-model="vocabulary.userAnswer" class="vocabulary-input" name="userAnswer" placeholder="" :disabled="mode==='answer'"/>
               <div class="vocabulary-meaning">{{ vocabulary.meaning }}</div>
               <div v-if="mode === 'vocabulary'" class="vocabulary-sentence">例句 : {{ vocabulary.sentence }}</div>
@@ -137,7 +138,7 @@ const shuffleVocabularies = () => {
         padding: 3rem;
         .vocabulary-item {
         display: grid;
-        grid-template-columns: 4fr 6fr 10fr 1fr;
+        grid-template-columns: 4fr 4fr 6fr 10fr 1fr;
         align-items: center;
         .vocabulary-input{
           width: 80%;
@@ -184,6 +185,11 @@ const shuffleVocabularies = () => {
         .vocabulary-word {
           font-size: 1.8rem;
           font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .vocabulary-name {
+          font-size: 1.5rem;
           margin-bottom: 0.5rem;
         }
 
