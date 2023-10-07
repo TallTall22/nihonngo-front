@@ -138,7 +138,7 @@ const shuffleVocabularies = () => {
         padding: 3rem;
         .vocabulary-item {
         display: grid;
-        grid-template-columns: 4fr 4fr 6fr 10fr 1fr;
+        grid-template-columns: 8fr 8fr 9fr 25fr 2fr;
         align-items: center;
         .vocabulary-input{
           width: 80%;
