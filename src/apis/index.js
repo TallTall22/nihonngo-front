@@ -11,11 +11,16 @@ export const getUnit39Async = () => {
   });
   const isLoading = ref(false);
 
-  const getUnit = async () => {
+  const getUnit = async (payload) => {
     isLoading.value = true;
     
     try {
-      const res = await axios.get(base_url);
+      const {currentUnit}=payload
+      const res = await axios.get(base_url,{
+        params:{
+          currentUnit
+        }
+      });
       Object.assign(unit,res.data)
     } catch (error) {
       console.error("Error fetching Unit 39 data:", error);

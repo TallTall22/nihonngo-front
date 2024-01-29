@@ -19,32 +19,33 @@
 
   const vocabularyMode=()=>{
     mode.value='vocabulary'
-    unit[currentUnit.value].vocabularies.sort((a,b)=>a.id-b.id)
+    unit.vocabularies.sort((a,b)=>a.id-b.id)
   }
 
   const testMode = () => {
   mode.value = 'test'
-  unit[currentUnit.value].vocabularies.forEach(vocabulary => {
+  unit.vocabularies.forEach(vocabulary => {
     vocabulary.userAnswer = '';
   });
   shuffleVocabularies()
 }
 
 const shuffleVocabularies = () => {
-  unit[currentUnit.value].vocabularies.sort(() => Math.random() - 0.5);
+  unit.vocabularies.sort(() => Math.random() - 0.5);
 };
 
   const checkAnswer=()=>{
-    correctCount.value=unit[currentUnit.value].vocabularies.filter(v=>v.userAnswer===v.answer).length
+    correctCount.value=unit.vocabularies.filter(v=>v.userAnswer===v.answer).length
     mode.value='answer'
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const changeUnit=(unit)=>{
     currentUnit.value=unit
+    getUnit({ currentUnit: currentUnit.value })
     vocabularyMode()
   }
-  getUnit()
+  getUnit({currentUnit:0})
 </script>
 <template>
   <div v-if="isLoading" class="">Loading...</div>
