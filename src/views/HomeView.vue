@@ -42,6 +42,7 @@ const shuffleVocabularies = () => {
 
   const changeUnit=(unit)=>{
     currentUnit.value=unit
+    getUnit({ currentUnit: currentUnit.value })
     vocabularyMode()
   }
   getUnit({currentUnit:0})
@@ -64,7 +65,7 @@ const shuffleVocabularies = () => {
       <div class="change-mode">
         <button type="button" @click=vocabularyMode>單字模式</button>
         <button type="button" @click=testMode>考試模式</button>
-        <select v-model="currentUnit" name="" id="">
+        <select v-model="currentUnit" name="" id="" @change="changeUnit(currentUnit)">
           <option v-for="(unit,index) in unitList" :key="index" :value="index">{{ unit }}</option>
         </select>
         <span v-if="mode==='test'">※答案請用片假名或平假名回答</span>
