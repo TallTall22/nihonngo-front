@@ -19,23 +19,23 @@
 
   const vocabularyMode=()=>{
     mode.value='vocabulary'
-    unit.vocabularies.sort((a,b)=>a.id-b.id)
+    unit[currentUnit.value].vocabularies.sort((a,b)=>a.id-b.id)
   }
 
   const testMode = () => {
   mode.value = 'test'
-  unit.vocabularies.forEach(vocabulary => {
+  unit[currentUnit.value].vocabularies.forEach(vocabulary => {
     vocabulary.userAnswer = '';
   });
   shuffleVocabularies()
 }
 
 const shuffleVocabularies = () => {
-  unit.vocabularies.sort(() => Math.random() - 0.5);
+  unit[currentUnit.value].vocabularies.sort(() => Math.random() - 0.5);
 };
 
   const checkAnswer=()=>{
-    correctCount.value=unit.vocabularies.filter(v=>v.userAnswer===v.answer).length
+    correctCount.value=unit[currentUnit.value].vocabularies.filter(v=>v.userAnswer===v.answer).length
     mode.value='answer'
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -46,6 +46,7 @@ const shuffleVocabularies = () => {
     vocabularyMode()
   }
   getUnit({currentUnit:0})
+  console.log(unit)
 </script>
 <template>
   <div v-if="isLoading" class="">Loading...</div>
@@ -76,7 +77,7 @@ const shuffleVocabularies = () => {
             <div class="vocabulary-item" :mode="mode">
               <div v-if="mode==='vocabulary'" class="vocabulary-word">{{ vocabulary.answer }}</div>
               <div v-if="mode==='vocabulary'" class="vocabulary-name">{{ vocabulary.name }}</div>
-              <input v-if="mode === 'test'|| mode === 'answer'" v-model="vocabulary.userAnswer" class="vocabulary-input" name="userAnswer" placeholder="" :disabled="mode==='answer'"/>
+              <input v-if="mode === 'test'|| mode === 'answer'" v-model="vocabulary.userAnswer" class="vocabulary-input" name="userAnswer" :disabled="mode==='answer'"/>
               <div class="vocabulary-meaning">{{ vocabulary.meaning }}</div>
               <div v-if="mode === 'vocabulary'" class="vocabulary-sentence">例句 : {{ vocabulary.sentence }}</div>
               <div v-if="mode === 'answer'&&vocabulary.userAnswer!==vocabulary.answer" class="vocabulary-answer">{{vocabulary.answer}}</div>
