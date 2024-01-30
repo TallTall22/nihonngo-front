@@ -42,11 +42,9 @@ const shuffleVocabularies = () => {
 
   const changeUnit=(unit)=>{
     currentUnit.value=unit
-    getUnit({ currentUnit: currentUnit.value })
     vocabularyMode()
   }
   getUnit({currentUnit:0})
-  console.log(unit)
 </script>
 <template>
   <div v-if="isLoading" class="">Loading...</div>
