@@ -12,6 +12,7 @@
   - [安裝](#安裝)
   - [啟動專案](#啟動專案)
 - [開發工具](#開發工具)
+- [Demo](#Demo)
 
 <br>
 <br>
@@ -89,6 +90,15 @@ control + c
 - "eslint-plugin-vue": "^9.16.1",
 <br>
 <br>
+
+
+#  Demo
+
+![單字模式](https://github.com/TallTall22/nihonngo-front/blob/main/public/image/demo-1.png)
+---
+![考試模式](https://github.com/TallTall22/nihonngo-front/blob/main/public/image/demo-2.png)
+---
+![對答案模式](https://github.com/TallTall22/nihonngo-front/blob/main/public/image/demo-3.png)
 ---
 
 
